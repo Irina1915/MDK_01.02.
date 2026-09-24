@@ -61,3 +61,69 @@ namespace UnitTestPracticheskai
         }
 	}
 }
+
+
+//[TestMethod]
+//public void TestMethodImpotrBD()
+//{
+//    Mock<IFileImport> mockFile = new Mock<IFileImport>(); // мок для имитации работы с файлом
+//    Mock<IUserRepository> mockRepo = new Mock<IUserRepository>(); // мок для имитации бд
+
+//    // Создаем двух конкретных пользователей — как будто они из файла
+//    var user1 = new User { Login = "ivan", Password = "123" };
+//    var user2 = new User { Login = "petr", Password = "456" };
+//    var listOfUsers = new List<User> { user1, user2 };
+
+//    // Если попросят прочитать файл — отдаем наш список
+//    mockFile.Setup(f => f.ReadDataFromFile("test.txt"))
+//        .ReturnsAsync(listOfUsers);
+
+//    // ВАЖНО: Теперь мы не используем It.IsAny. Мы говорим: 
+//    // "Если проверка придет именно для 'ivan' и '123' — пусть будет true"
+//    mockFile.Setup(f => f.ValidateUser("ivan", "123"))
+//        .Returns(true);
+
+//    // И для второго пользователя тоже жестко прописываем
+//    mockFile.Setup(f => f.ValidateUser("petr", "456"))
+//        .Returns(true);
+
+//    var importer = new ImportBD(mockFile.Object, mockRepo.Object); // создаем объект
+
+//    importer.ImportData("test.txt").GetAwaiter().GetResult(); // запускаем импорт
+
+//    // Проверяем: добавили ровно 2 раза
+//    mockRepo.Verify(r => r.AddUser(It.IsAny<User>()), Times.Exactly(2));
+
+//    // Проверяем: сохранили 2 раза (так как у тебя SaveChanges внутри цикла)
+//    mockRepo.Verify(r => r.SaveChanges(), Times.Exactly(2));
+//}
+
+
+//[TestMethod]
+//public void TestMethodImpotrBDFail()
+//{
+//    Mock<IFileImport> mockFile = new Mock<IFileImport>(); // мок для файла
+//    Mock<IUserRepository> mockRepo = new Mock<IUserRepository>(); // мок для бд
+
+//    // Один плохой пользователь
+//    var badUser = new User { Login = "bad_user", Password = "wrong_pass" };
+//    var listOfUsers = new List<User> { badUser };
+
+//    // Читаем файл — отдаем плохого пользователя
+//    mockFile.Setup(f => f.ReadDataFromFile("test.txt"))
+//        .ReturnsAsync(listOfUsers);
+
+//    // Жестко говорим: если спросят про этого конкретного пользователя — валидация не пройдет
+//    mockFile.Setup(f => f.ValidateUser("bad_user", "wrong_pass"))
+//        .Returns(false);
+
+//    var importer = new ImportBD(mockFile.Object, mockRepo.Object);
+
+//    importer.ImportData("test.txt").GetAwaiter().GetResult();
+
+//    // Проверяем: в базу НЕ добавили ни одного (Times.Never)
+//    mockRepo.Verify(r => r.AddUser(It.IsAny<User>()), Times.Never);
+
+//    // Проверяем: не сохраняли изменения
+//    mockRepo.Verify(r => r.SaveChanges(), Times.Never);
+//}
