@@ -11,5 +11,6 @@ namespace Library
         List<User> GetUsers(); // мы берем с бд
         User GetUser(string login);
         void AddUser(User user);
+        void SaveChanges();
     }
 }
